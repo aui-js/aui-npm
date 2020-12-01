@@ -1,12 +1,12 @@
 # aui
 
 ### js常用方法库
-  
-`使用说明：`
 
 #### 安装
 
-npm i aui-1.0
+```javascript
+   npm i aui-1.0
+```
 
 #### 引入
    
