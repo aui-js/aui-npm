@@ -78,18 +78,11 @@ var aui = new Object();
          return temp;
       },
    };
+   
    // 将插件对象暴露给全局对象
-   if(typeof module !== 'undefined' && typeof exports === 'object' && define.cmd) {
-      module.exports = aui;
-   } 
-   else if(typeof define === 'function' && define.amd) {
-      define(function() {
-         return aui;
-      });
-   } 
-   else {
-      window.aui = aui;
-   }
+   if(typeof module !== 'undefined' && typeof exports === 'object' && define.cmd) { module.exports = aui; } 
+   else if(typeof define === 'function' && define.amd) { define(function() { return aui; }); } 
+   else { window.aui = aui; }
 })(document, window);
 
 /***本地定时缓存（一段时间内有效）
