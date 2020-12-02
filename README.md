@@ -26,13 +26,25 @@ isDefine 判断字符串是否为空
    ```javascript
       this.aui.isDefine(str);
    ```
-space 去除字符串中空格
+space 删除字符串中指定字符
    ```javascript
       this.aui.space(str, true);
+   ```
+replaceStr 去除字符串中空格
+   ```javascript
+      this.aui.replaceStr('原字符串', '指定字符');
    ```
 uniq 数组去重
    ```javascript
       this.aui.uniq(arr);
+   ```
+getUrlstr 截取URL中字符串(可获取中文内容)
+   ```javascript
+      this.aui.getUrlstr('id');
+   ```
+random 生成随机数
+   ```javascript
+      this.aui.random(10, 100);
    ```
 setLocal 本地存储(可设置存储时间)
    ```javascript
@@ -43,4 +55,9 @@ setLocal 本地存储(可设置存储时间)
       this.aui.removeLocal('items');
       //清空所有缓存
       this.aui.clearLocal();
+   ```
+import 引入 js / css 文件
+   ```javascript
+      this.aui.import('aui.js')
+      this.aui.import(['aui.js', 'aui.css'])
    ```
