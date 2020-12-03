@@ -153,7 +153,7 @@ var aui = new Object();
 })(document, window);
 
 /***本地定时缓存（一段时间内有效）
- 	@example: aui.setLocal('items', items, 1*24*60*60); 缓存一天内有效
+    @example: aui.setLocal('items', items, 1*24*60*60); 缓存一天内有效
 */
 !(function($, document, window, undefined) {
    $.setLocal = function(key, value, time) {
@@ -242,9 +242,215 @@ var aui = new Object();
             var css = document.createElement('link');
             css.rel = 'stylesheet';
             css.type = 'text/css';
-            css.href = file;		
-            document.querySelector('head').appendChild(css);	
+            css.href = file;      
+            document.querySelector('head').appendChild(css);   
          }
       }
+   };
+})(aui, document, window);
+
+/* ===============================
+    UI组件
+   ===============================
+ */
+/***  loading 加载动画  */
+!(function($, document, window, undefined) {
+   var loading = new Object();
+   loading = {
+      opts: function(opt) {
+         var opts = {
+            warp: 'body', // --可选参数，父容器元素
+            type: 1, //--可选参数，默认圆环风格(<1>、1:toast圆环风格，<2>、2:点击按钮后在按钮内显示加载动画) <3>、3:四方块水平方向旋转，
+            msg: '', //--可选参数，描述内容
+            mask: false, //--可选参数，是否显示遮罩，默认false
+            direction: 'col', //--可选参数，横向("row")或纵向("col")控制，默认纵向
+            theme: 1, //--可选参数，控制风格
+            style: {
+               bg: '', // --可选参数，.aui-loading-main背景色(rgba(0,0,0,.6))
+               color: '', //--可选参数，文字颜色
+               maskBg: '', //--可选参数，遮罩层背景色(rgba(0,0,0,.3))
+               zIndex: '', //--可选参数，加载弹窗.aui-loading层级
+            }
+         };
+         
+         return $.extend(opts, opt, true);
+      },
+      creat: function(opt) { //创建
+         var _this = this;
+         var _opts = _this.opts(opt);
+         var _html = '';
+         switch(Number(_opts.type)) {
+            case 1: //常用风格
+               _html = '<div class="aui-loading aui-loading-ring">'
+                  +'<div class="aui-mask"></div>'
+                  +'<div class="aui-loading-main">'
+                     +'<div class="aui-loading-animate">';
+               for(var i = 0; i < 12; i++) {
+                  _html += '<span class="span"></span>';
+               }
+               _html +=
+                     '</div>'
+                     +'<div class="aui-loading-msg">'+ _opts.msg +'<span class="dotting"></span></div>'
+                  +'</div>'
+               +'</div>';
+               break;
+            case 2: //点击按钮后在按钮内显示加载动画
+               _html += '<div class="aui-loading aui-loading-button">'
+                  +'<div class="aui-loading-main">'
+                     +'<div class="aui-loading-animate">';
+               for(var j = 0; j < 12; j++) {
+                  _html += '<span class="span"></span>';
+               }
+               _html +=
+                     '</div>'
+                     +'<div class="aui-loading-msg">'+ _opts.msg +'</div>'
+                  +'</div>'
+               +'</div>';
+               break;
+            case 3: //四个方块旋转
+               _html = '<div class="aui-loading aui-loading-squarefour">'
+                  +'<div class="aui-mask"></div>'
+                  +'<div class="aui-loading-main">'
+                     +'<div class="aui-loading-animate"><span class="span1"></span><span class="span2"></span><span class="span3"></span><span class="span4"></span></div>'
+                     +'<div class="aui-loading-msg">'+ _opts.msg +'<span class="dotting"></span></div>'
+                  +'</div>'
+               +'</div>';
+               break;
+            case 4: //圆点放大缩小动画(全屏首次加载过度动画)
+               _html = '<div class="aui-loading aui-loading-dots">'
+               +'<div class="aui-mask"></div>'
+                  +'<div class="aui-loading-main">'
+                     +'<div class="aui-loading-dot-items">'
+                        +'<div class="aui-loading-dot-item" id="dot_one"></div>'
+                        +'<div class="aui-loading-dot-item" id="dot_two"></div>'
+                        +'<div class="aui-loading-dot-item" id="dot_three"></div>'
+                     +'</div>'
+                  +'</div>'
+               +'</div>';
+               break;
+            case 5: //圆点背景过度动画-微信小程序效果(全屏首次加载过度动画)
+               _html = '<div class="aui-loading aui-loading-dots-opacity">'
+               +'<div class="aui-mask"></div>'
+                  +'<div class="aui-loading-main">'
+                     +'<div class="aui-loading-dot-items">'
+                        +'<div class="aui-loading-dot-item" id="dot_one"></div>'
+                        +'<div class="aui-loading-dot-item" id="dot_two"></div>'
+                        +'<div class="aui-loading-dot-item" id="dot_three"></div>'
+                     +'</div>'
+                  +'</div>'
+               +'</div>';
+               break;
+            default:
+               break;
+         }
+         //if(document.querySelector(".aui-loading")) return;
+         document.querySelector(_opts.warp).insertAdjacentHTML('beforeend', _html);
+         var ui = {
+            msg: document.querySelector('.aui-loading-msg'),
+            mask: document.querySelector('.aui-loading .aui-mask'),
+         };
+         !$.isDefine(_opts.mask) && ui.mask ? ui.mask.parentNode.removeChild(ui.mask) : '';
+         !$.isDefine(_opts.msg) && ui.msg ? ui.msg.parentNode.removeChild(ui.msg) : '';
+         document.querySelector('.aui-mask,.aui-loading').addEventListener('touchmove', function(e) {
+            e.preventDefault();
+         });
+         _this.css(opt);
+      },
+      css: function(opt) { //样式设置
+         var _this = this;
+         var _opts = _this.opts(opt);
+         var ui = {
+            warp: document.querySelector(_opts.warp),
+            loading: document.querySelector('.aui-loading'),
+            main: document.querySelector('.aui-loading-main'),
+            button: document.querySelector('.aui-loading.aui-loading-button'),
+            buttonMain: document.querySelector('.aui-loading.aui-loading-button .aui-loading-main'),
+            ring: document.querySelector('.aui-loading.aui-loadig-ring'),
+            ringMain: document.querySelector('.aui-loading.aui-loading-ring .aui-loading-main'),
+            ringSpans: document.querySelector('.aui-loading.aui-loading-ring .span'),
+            squarefour: document.querySelector('.aui-loading.aui-loading-squarefour'),
+            squarefourMain: document.querySelector('.aui-loading.aui-loading-squarefour .aui-loading-main'),
+            animate: document.querySelector('.aui-loading-animate'),
+            msg: document.querySelector('.aui-loading-msg'),
+            mask: document.querySelector('.aui-loading .aui-mask'),
+            spans: document.querySelector('.aui-loading.aui-loading-button .span')
+         };
+         $.isDefine(_opts.style.bg) ? ui.main.style.background = _opts.style.bg : '';
+         $.isDefine(_opts.style.color) && ui.msg ? ui.msg.style.color = _opts.style.color : '';
+         $.isDefine(_opts.style.zIndex) ? ui.main.style.zIndex = _opts.style.zIndex : '';
+         $.isDefine(_opts.style.maskBg) && ui.mask ? ui.mask.style.background = _opts.style.maskBg : '';
+         switch(Number(_opts.type)) {
+            case 1: //ring全屏布局加载动画
+               $.isDefine(_opts.msg) ? ui.main.style.minWidth = ui.main.offsetHeight + 10 + 'px' : '';
+               if(_opts.direction == 'row')
+               { //水平布局样式设置
+                  ui.main.style.cssText = 'width: auto; min-height: auto; padding: 10px 15px 9px 15px';
+                  ui.ringMain.style.whiteSpace = 'nowrap';
+                  if(ui.msg) {
+                     ui.msg.style.cssText = 'width: auto; max-width: auto; display: inline-block; height: 24px; line-height: 24px; margin: 0 0 0 10px; font-size: 15px;';
+                     ui.animate.style.cssText = 'display: inline-block; width: 25px; height: 25px;';
+                  }
+               }
+               for(var i = 0; i < 12; i++) {
+                  $.isDefine(_opts.style.color) ? ui.ringSpans.parentElement.children[i].style.borderColor = _opts.style.color : '';
+               }
+               break;
+            case 2: //button按钮加载动画
+               ui.warp.style.position = $.getStyle(ui.warp).position == 'static' ? 'relative' : '';
+               ui.button.style.cssText = 'width: ' + ui.warp.offsetWidth + 'px; height: ' + ui.warp.offsetHeight + 'px';
+               ui.animate.style.marginTop = (ui.warp.offsetHeight - ui.animate.offsetHeight) / 2 - parseInt($.getStyle(ui.warp).borderWidth) + 'px';
+               ui.msg ? ui.msg.style.marginTop = (ui.warp.offsetHeight - ui.animate.offsetHeight) / 2 - parseInt($.getStyle(ui.warp).borderWidth) - 1 + 'px' : '';
+               ui.button.style.marginLeft = $.getStyle(ui.warp).border != '0px none rgb(0, 0, 0)' ? - parseInt($.getStyle(ui.warp).borderWidth) + 'px' : '';
+               ui.button.style.marginTop = $.getStyle(ui.warp).border != '0px none rgb(0, 0, 0)' ? - parseInt($.getStyle(ui.warp).borderWidth) + 'px' : '';
+               ui.buttonMain.style.borderRadius = parseInt($.getStyle(ui.warp).borderRadius) > 0 ? parseInt($.getStyle(ui.warp).borderRadius) + 'px' : '';
+               ui.buttonMain.style.background = $.getStyle(ui.warp).backgroundColor;
+               ui.msg ? ui.msg.style.color = $.getStyle(ui.warp).color : '';
+               for(var j = 0; j < 12; j++) {
+                  ui.spans.parentElement.children[j].style.borderColor = $.getStyle(ui.warp).color;
+               }
+               ui.msg ? ui.msg.style.fontSize = $.getStyle(ui.warp).fontSize : '';
+               ui.button.addEventListener('touchstart', function(e) {
+                  e.preventDefault();
+               });
+               break;
+            case 3: //squarefour四方块旋转加载动画
+               if(_opts.theme == 1)
+               { //小窗（可设置mask）
+                  ui.squarefour.classList.add('aui-loading-squarefour-style-1');
+                  $.isDefine(_opts.msg) ? ui.squarefourMain.style.width = ui.squarefourMain.offsetHeight + 10 + 'px' : '';
+               }
+               else if(_opts.theme == 2)
+               { //全屏覆盖
+                  ui.squarefour.classList.add('aui-loading-squarefour-style-2');
+               }
+               break;
+            default:
+               break;
+         }
+      },
+      show: function(opt, callback) { //显示
+         var _this = this;
+         var _opts = _this.opts(opt);
+         _this.creat(opt);
+         var _timer = setTimeout(function() {
+            typeof callback == 'function' ? callback() : '';
+            clearTimeout(_timer);
+         }, 200);
+      },
+      hide: function(opt, callback) { //隐藏
+         var _this = this;
+         var _opts = _this.opts(opt);
+         var _timer = setTimeout(function() {
+            document.querySelector('.aui-loading') ? document.querySelector('.aui-loading').parentNode.removeChild(document.querySelector('.aui-loading')) : '';            
+            typeof callback == 'function' ? callback() : '';
+            clearTimeout(_timer);
+         }, 300);
+      }
+   };
+   $.showload = function(opt, callback) {
+      loading.show(opt, callback);
+   };
+   $.hideload = function(opt, callback) {
+      loading.hide(opt, callback);
    };
 })(aui, document, window);

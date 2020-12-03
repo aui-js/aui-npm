@@ -1,7 +1,8 @@
 {
   "name": "aui-1.0",
-  "version": "1.0.17",
+  "version": "1.0.25",
   "main": "index.js",
+  "style": "src/static/css/aui.css",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
