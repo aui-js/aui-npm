@@ -165,7 +165,7 @@ var aui = new Object();
                   e.returnValue = false;
                   return (false);
                }
-            }
+            };
          }
       },
    };
