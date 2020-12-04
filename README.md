@@ -50,10 +50,10 @@ space 删除字符串中指定字符
 
 
 replaceStr 去除字符串中空格
-      参数  |  类型  |  描述  | 默认值 | 必选
-      ----  | ------ | ------ | ----- | ----
-      str  | string | 字符串 | 无 | 是
-      assignStr  | string | 指定字符串 | 无 | 否
+   参数  |  类型  |  描述  | 默认值 | 必选
+   ----  | ------ | ------ | ----- | ----
+   str  | string | 字符串 | 无 | 是
+   assignStr  | string | 指定字符串 | 无 | 否
    ```javascript
       this.aui.replaceStr('原字符串', '指定字符');
    ```
