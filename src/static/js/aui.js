@@ -144,6 +144,30 @@ var aui = new Object();
          document.addEventListener('copy', save);
          return document.execCommand('copy');//使文档处于可编辑状态，否则无效
       },
+      
+      /***验证是否是开发者
+         @param {bool} isDeveloper true | false 是否是开发者
+         @example: aui.checkIsDeveloper(false);
+      */
+      checkIsDeveloper: function(isDeveloper) {
+         if(!isDeveloper)
+         { //不是开发者  关闭打开控制台权限
+            window.document.oncontextmenu = function() {
+               return false;	
+            };
+            
+            document.oncontextmenu = new Function('event.returnValue=false');
+            document.onselectstart = new Function('event.returnValue=false');
+            
+            document.onkeydown = document.onkeyup = document.onkeypress = function(event) {
+               var e = event || window.event || arguments.callee.caller.arguments[0];
+               if(e && e.keyCode == 123) {
+                  e.returnValue = false;
+                  return (false);
+               }
+            }
+         }
+      },
    };
    
    // 将插件对象暴露给全局对象
@@ -249,10 +273,6 @@ var aui = new Object();
    };
 })(aui, document, window);
 
-/* ===============================
-    UI组件
-   ===============================
- */
 /***  loading 加载动画  */
 !(function($, document, window, undefined) {
    var loading = new Object();
