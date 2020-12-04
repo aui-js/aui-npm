@@ -27,6 +27,9 @@ extend 对象合并(可实现多层对象深度合并)
    ```javascript
       this.aui.extend("原始参数", "新参数", true);
    ```
+
+
+
 isDefine 判断字符串是否为空
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -34,6 +37,8 @@ isDefine 判断字符串是否为空
    ```javascript
       this.aui.isDefine(str);
    ```
+
+
 space 删除字符串中指定字符
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -42,6 +47,8 @@ space 删除字符串中指定字符
    ```javascript
       this.aui.space(str, true);
    ```
+
+
 replaceStr 去除字符串中空格
       参数  |  类型  |  描述  | 默认值 | 必选
       ----  | ------ | ------ | ----- | ----
@@ -50,6 +57,8 @@ replaceStr 去除字符串中空格
    ```javascript
       this.aui.replaceStr('原字符串', '指定字符');
    ```
+
+
 uniq 数组去重
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -57,6 +66,8 @@ uniq 数组去重
    ```javascript
       this.aui.uniq(array);
    ```
+
+
 getUrlstr 截取URL中参数(可获取中文内容)
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -64,6 +75,8 @@ getUrlstr 截取URL中参数(可获取中文内容)
    ```javascript
       this.aui.getUrlstr('id');
    ```
+
+
 random 生成随机数
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -72,6 +85,8 @@ random 生成随机数
    ```javascript
       this.aui.random(10, 100);
    ```
+
+
 copy 复制到剪切板
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -79,6 +94,8 @@ copy 复制到剪切板
    ```javascript
       this.aui.copy('213421');
    ```
+
+
 checkIsDeveloper 验证是否是开发者
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -86,6 +103,8 @@ checkIsDeveloper 验证是否是开发者
    ```javascript
       this.aui.checkIsDeveloper(false);
    ```
+
+
 setLocal 本地存储(可设置存储时间)
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -101,6 +120,8 @@ setLocal 本地存储(可设置存储时间)
       //清空所有缓存
       this.aui.clearLocal();
    ```
+
+
 import 引入 js / css 文件
    参数  |  类型  |  描述  | 默认值 | 必选
    ----  | ------ | ------ | ----- | ----
@@ -109,6 +130,8 @@ import 引入 js / css 文件
       this.aui.import('aui.js')
       this.aui.import(['aui.js', 'aui.css'])
    ```
+
+
 loading加载动画
    参数  |  类型  |  描述  | 默认值 | 必选
    ---- | ----- | ------ | ----- | ----
