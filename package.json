@@ -1,6 +1,6 @@
 {
   "name": "aui-1.0",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "main": "index.js",
   "style": "src/static/css/aui.css",
   "scripts": {
